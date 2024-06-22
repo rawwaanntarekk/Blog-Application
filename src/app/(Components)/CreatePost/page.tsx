@@ -3,6 +3,8 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
 import { usePosts } from "../../Context/PostsContext";
 import style from "./page.module.css";
+import Image from "next/image";
+import img from "../../../../public/Images/6719442.png"
 
 export default function CreatePost() {
   const { addPost } = usePosts();
@@ -31,11 +33,13 @@ export default function CreatePost() {
 
   return (
     <>
-      <div className="d-flex mt-5 justify-content-center">
+      <div className="d-flex mt-3 align-items-center flex-column ">
+      <h2 className="fw-bold display-5 text-center">What is in your mind ?</h2>
+        <div className="col-md-4">
         <Button onPress={() => setIsOpen(true)} id="openModal">
-          <h2 className="fw-bold">What is in your mind ?</h2>
           <p className="mt-4 border-bottom py-2 text-start fs-6">Write Your Post</p>
         </Button>
+        </div>
       </div>
       <div className="container mb-5">
         <div className="row justify-content-center mb-5"></div>
@@ -62,6 +66,9 @@ export default function CreatePost() {
             </>
           </ModalContent>
         </Modal>
+      </div>
+      <div  className={`${style.imgStyle}`}>
+        <Image src={img} alt="post" />
       </div>
     </>
   );

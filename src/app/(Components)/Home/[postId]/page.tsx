@@ -2,7 +2,9 @@ import React from 'react'
 
 // destructuring the params object that holds the parameters passed to the page
 // Holds the postId parameter
-export default async  function Post({params}) {
+
+
+export default async  function Post({params}: {params: any}) {
     let postId = params.postId;
     async function getPost() {
         let response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);

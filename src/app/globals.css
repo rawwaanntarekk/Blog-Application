@@ -134,3 +134,11 @@ Button {
   border: none;
   outline: none;
 }
+
+#openModal {
+  width: 30% !important;
+  position: fixed !important;
+  left: 50% !important;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
