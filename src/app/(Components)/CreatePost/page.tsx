@@ -8,6 +8,7 @@ import img from "../../../../public/Images/6719442.png";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// Interface for Post object
 interface Post {
   userId: number;
   id: number;
@@ -15,62 +16,89 @@ interface Post {
   body: string;
 }
 
-export default function CreatePost() {
-  const { addPost } = usePosts();
-  const [isOpen, setIsOpen] = useState(false);
-  const [formData, setFormData] = useState({ title: "", body: "" });
-  const [errors, setErrors] = useState<{ title?: string; body?: string }>({});
+// Interface for form data and errors
+interface FormData {
+  title: string;
+  body: string;
+}
 
+interface FormErrors {
+  title?: string;
+  body?: string;
+}
+
+export default function CreatePost() {
+  const { addPost } = usePosts(); // Get the addPost function from the context
+  const [isOpen, setIsOpen] = useState(false); // State to manage modal open/close
+  const [formState, setFormState] = useState<{ data: FormData; errors: FormErrors }>({
+    data: { title: "", body: "" },
+    errors: {},
+  });
+
+  // Handle form input changes
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
+    setFormState((prevState) => ({
+      ...prevState,
+      data: {
+        ...prevState.data,
+        [name]: value,
+      },
     }));
   };
+
   // Generate a unique id for the new post
-  function generateId() {
+  const generateId = () => {
     let lastNumber = parseInt(localStorage.getItem('lastNumber') ?? '99');
     let nextNumber = lastNumber + 1;
     localStorage.setItem('lastNumber', nextNumber.toString());
     return nextNumber;
-  }
+  };
+
   // Validate the form data
-  const validateForm = () => {
-    const errors: { title?: string; body?: string } = {};
-    if (formData.title.length < 5) {
+  const validateForm = (data: FormData) => {
+    const errors: FormErrors = {};
+    if (data.title.length < 5) {
       errors.title = "Title must be at least 5 characters long";
     }
-    if (formData.body.length < 10) {
+    if (data.body.length < 10) {
       errors.body = "Body must be at least 10 characters long";
     }
     return errors;
   };
 
+  // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const validationErrors = validateForm();
+    const validationErrors = validateForm(formState.data);
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
+      setFormState((prevState) => ({
+        ...prevState,
+        errors: validationErrors,
+      }));
       return;
     }
 
     const newPost: Post = {
       userId: 1,
       id: generateId(),
-      title: formData.title,
-      body: formData.body,
+      title: formState.data.title,
+      body: formState.data.body,
     };
-    addPost(newPost);
-    setIsOpen(false);
+    addPost(newPost); // Add the new post
+    setIsOpen(false); // Close the modal
     toast.success("Wow You Posted Successfully! Check Your Post on the Home Page", {
       className: 'bg-dark text-light',
     });
   };
 
+  // Reset errors when modal is opened
   useEffect(() => {
     if (isOpen) {
-      setErrors({});
+      setFormState((prevState) => ({
+        ...prevState,
+        errors: {},
+      }));
     }
   }, [isOpen]);
 
@@ -94,15 +122,13 @@ export default function CreatePost() {
                 <form id="postForm" onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label htmlFor="title" className="form-label">Title</label>
-                    <input
-                      type="text"
-                      className={`form-control ${errors.title ? 'is-invalid' : ''}`} id="title" name="title" value={formData.title} onChange={handleChange} required/>
-                    {errors.title && <div className="invalid-feedback">{errors.title}</div>}
+                    <input type="text" className={`form-control ${formState.errors.title? 'is-invalid' : ''}`} id="title" name="title" value={formState.data.title} onChange={handleChange} required/>
+                    {formState.errors.title && <div className="invalid-feedback">{formState.errors.title}</div>}
                   </div>
                   <div className="mb-3">
                     <label htmlFor="body" className="form-label">Body</label>
-                    <textarea className={`form-control ${errors.body ? 'is-invalid' : ''}`} id="body" name="body" value={formData.body} onChange={handleChange} required></textarea>
-                    {errors.body && <div className="invalid-feedback">{errors.body}</div>}
+                    <textarea className={`form-control ${formState.errors.body ? 'is-invalid' : ''}`} id="body" name="body" value={formState.data.body} onChange={handleChange} required></textarea>
+                    {formState.errors.body && <div className="invalid-feedback">{formState.errors.body}</div>}
                   </div>
                 </form>
               </ModalBody>

@@ -23,7 +23,7 @@ export default function Navbar() {
             <Link href={'/Home'} className='fw-normal fs-6 '> Home</Link>
           </li>
             <li>
-            <Link href={'/CreatePost'} className={`fw-normal fs-6 ${styles.LiDistance} text-center `}> Create Post</Link>
+            <Link href={'/CreatePost'} className={`fw-normal fs-6 `}> Create Post</Link>
             </li>
         </ul>
         </div>
