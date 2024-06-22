@@ -5,11 +5,18 @@ import { usePosts } from "../../Context/PostsContext";
 import style from "./page.module.css";
 import Image from "next/image";
 import img from "../../../../public/Images/6719442.png"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CreatePost() {
   const { addPost } = usePosts();
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({ title: "", body: "" });
+
+  const notify = () => toast.success("Wow You Posted Successfully!  Check Your Post in Home Page" , {
+    className: 'bg-dark text-light',
+  });
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -19,17 +26,27 @@ export default function CreatePost() {
     }));
   };
 
+  function generateId() {
+    let lastNumber = parseInt(localStorage.getItem('lastNumber') ?? '100');
+    let nextNumber = lastNumber + 1;
+    localStorage.setItem('lastNumber', nextNumber.toString());
+    return nextNumber;
+  }
+  
+  
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newPost = {
       userId: 1,
-      id: Date.now(), // Just a placeholder for the ID
+      id: generateId(), // Use generated ID
       title: formData.title,
       body: formData.body,
     };
     addPost(newPost);
     setIsOpen(false);
   };
+  
 
   return (
     <>
@@ -60,7 +77,7 @@ export default function CreatePost() {
                 </form>
               </ModalBody>
               <ModalFooter className="d-flex align-items-end">
-                <Button onPress={() => setIsOpen(false)} type="submit" form="postForm" className="btn text-light bg-dark">Post</Button>
+                <Button onPress={() => setIsOpen(false)} type="submit" onClick={notify} form="postForm" className="btn text-light bg-dark">Post</Button>
                 <Button variant="light" onPress={() => setIsOpen(false)} className="btn btn-outline-dark me-1 align-self-end">Cancel</Button>
               </ModalFooter>
             </>
@@ -70,6 +87,7 @@ export default function CreatePost() {
       <div  className={`${style.imgStyle}`}>
         <Image src={img} alt="post" />
       </div>
+      <ToastContainer />
     </>
   );
 }
