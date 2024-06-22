@@ -25,9 +25,9 @@ export default function Home() {
   }, [addPost]);
 
   return (
-    <div>
-      <div className="container">
-        <div className="row justify-content-center mt-5 ">
+    <div className="mt-5">
+      <div className="container ">
+        <div className="row justify-content-center mt-5  ">
           {posts.map((post: Post) => (
             <div className="col-sm-10 col-md-10 border-bottom py-3" key={post.id} id="postContainer">
               <Link href={`/Home/${post.id}`} className={`${styles.resetLinkStyle}`}>
