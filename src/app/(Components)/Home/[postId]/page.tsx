@@ -46,7 +46,7 @@ export default function Post({ params }: { params: any }) {
 
 return (
     <div className="container">
-        <h2 className='text-center my-5'>Full Post</h2>
+        <h2 className='text-center my-5 fw-bold display-5'>Full Post</h2>
         <div className="row mt-5 justify-content-center">
             <div className='post col-12 col-lg-8'>
                 <h2 className='border-bottom pb-3 fw-bold'>{post?.title}</h2>

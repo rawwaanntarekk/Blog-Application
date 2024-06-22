@@ -10,7 +10,9 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-sm navbar-light bg-light ">
       <div className="container ">
-      <a className="navbar-brand fw-bold fs-3" href="#">Slash Blog.</a>
+        <Link className="navbar-brand fw-bold fs-3" href="/Home">
+        Slash Blog.
+        </Link>
       <button className="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon" />
       </button>
