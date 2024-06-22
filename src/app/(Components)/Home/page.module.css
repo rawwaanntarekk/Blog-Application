@@ -228,3 +228,25 @@
     transform: rotate(0deg);
   }
 }
+
+.constHeight {
+  height: 9.375rem !important ;
+}
+
+.W75 {
+  width: 75% !important;
+}
+
+.MyBadge {
+  font-size: 0.7rem !important;
+  border-radius: 20px;
+  transform: translateY(-0.3125rem);
+  background-color: #343A40;
+  color: white;
+}
+
+.resetLinkStyle {
+  text-decoration: none !important;
+  color: #343A40 !important;
+
+}

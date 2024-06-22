@@ -1,0 +1,68 @@
+"use client";
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
+import { usePosts } from "../../Context/PostsContext";
+import style from "./page.module.css";
+
+export default function CreatePost() {
+  const { addPost } = usePosts();
+  const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({ title: "", body: "" });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newPost = {
+      userId: 1,
+      id: Date.now(), // Just a placeholder for the ID
+      title: formData.title,
+      body: formData.body,
+    };
+    addPost(newPost);
+    setIsOpen(false);
+  };
+
+  return (
+    <>
+      <div className="d-flex mt-5 justify-content-center">
+        <Button onPress={() => setIsOpen(true)} id="openModal">
+          <h2 className="fw-bold">What is in your mind ?</h2>
+          <p className="mt-4 border-bottom py-2 text-start fs-6">Write Your Post</p>
+        </Button>
+      </div>
+      <div className="container mb-5">
+        <div className="row justify-content-center mb-5"></div>
+        <Modal isOpen={isOpen} onOpenChange={() => setIsOpen(false)} className={`rounded-2 ${style.borderModule} col-sm-6 col-md-6 col-lg-4 p-4`}>
+          <ModalContent>
+            <>
+              <ModalHeader className="flex flex-col gap-1 fw-bold fs-5">What is in Your mind ?</ModalHeader>
+              <ModalBody>
+                <form action="" id="postForm" onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <label htmlFor="title" className="form-label">Title</label>
+                    <input type="text" className="form-control" id="title" name="title" value={formData.title} onChange={handleChange} required />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="body" className="form-label">Body</label>
+                    <textarea className="form-control" id="body" name="body" value={formData.body} onChange={handleChange} required></textarea>
+                  </div>
+                </form>
+              </ModalBody>
+              <ModalFooter className="d-flex align-items-end">
+                <Button onPress={() => setIsOpen(false)} type="submit" form="postForm" className="btn text-light bg-dark">Post</Button>
+                <Button variant="light" onPress={() => setIsOpen(false)} className="btn btn-outline-dark me-1 align-self-end">Cancel</Button>
+              </ModalFooter>
+            </>
+          </ModalContent>
+        </Modal>
+      </div>
+    </>
+  );
+}

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "./(Components)/Navbar/navbar";
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import ImportBsJS from "./(Components)/JSImport/ImportBsJs";
+import { PostsProvider } from "./Context/PostsContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +20,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {/* This is the posts provider to reflech post additions to home pages */}
+        <PostsProvider>
+        {/* This Component is for importing bootstrap java script to the project  */}
+          <ImportBsJS/>
+          <Navbar/>
+          {children}
+        </PostsProvider>
+      </body>
     </html>
   );
 }
