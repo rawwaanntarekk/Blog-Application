@@ -136,9 +136,15 @@ Button {
 }
 
 #openModal {
-  width: 30% !important;
+  width: 60% !important;
   position: fixed !important;
   left: 50% !important;
   transform: translateX(-50%);
   z-index: 9999;
+}
+
+@media(min-width : 992px) {
+  #openModal {
+    width: 40% !important;
+  }
 }

@@ -48,7 +48,7 @@ return (
     <div className="container">
         <h2 className='text-center my-5'>Full Post</h2>
         <div className="row mt-5 justify-content-center">
-            <div className='post col-md-8'>
+            <div className='post col-12 col-lg-8'>
                 <h2 className='border-bottom pb-3 fw-bold'>{post?.title}</h2>
                 <p className='mt-4 fs-3'>{post?.body}</p>
             </div>

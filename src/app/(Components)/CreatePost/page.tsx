@@ -50,9 +50,9 @@ export default function CreatePost() {
 
   return (
     <>
-      <div className="d-flex mt-3 align-items-center flex-column ">
+      <div className="row mt-3 align-items-center flex-column ">
       <h2 className="fw-bold display-5 text-center">What is in your mind ?</h2>
-        <div className="col-md-4">
+        <div className="col-12 col-md-4">
         <Button onPress={() => setIsOpen(true)} id="openModal">
           <p className="mt-4 border-bottom py-2 text-start fs-6">Write Your Post</p>
         </Button>
